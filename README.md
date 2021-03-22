@@ -204,14 +204,15 @@ $ kubectl get pod,svc
 ##第一步，准备Java项目，进行打包
 	
 	编写dockerfile文件
-	FROM openjdk:8-jdk-alpine
+	```
+	$ FROM openjdk:8-jdk-alpine
 	VOLUME /tmp
 	ADD ./target/demojenkins.jar demojenkins.jar
 	ENTRYPOINT ["java","-jar","/demojenkins.jar", "&"]
 
 	使用mvn命令进行打包
 	mvn clean package
-
+	```
 
 ##第二步，制作镜像
 	
