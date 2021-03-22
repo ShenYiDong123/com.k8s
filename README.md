@@ -188,30 +188,33 @@ $ kubectl get pod,svc
 
 
 **=======================================================**
-#K8S部署Java项目
+##K8S部署Java项目
 
-容器交付流程
+##容器交付流程
+	
 	开发代码阶段 —> 持续交付/集成 —> 应用部署 —> 运维
 
 	开发代码阶段：编写代码、测试、编写DockerFile
 	持续交付/集成：代码编译打包、制作镜像、上传镜像仓库
 	应用部署：环境部署、Pod、Service、Ingress
 	运维：监控、故障排查、升级优化
-K8S部署项目流程
+##K8S部署项目流程
 	制作镜像（dockerflie） -> 推送镜像仓库（阿里云）—> 控制器部署镜像（deployment） -> 对外部署应用(Service)
 
-第一步，准备Java项目，进行打包
+##第一步，准备Java项目，进行打包
+	
 	编写dockerfile文件
 	FROM openjdk:8-jdk-alpine
 	VOLUME /tmp
 	ADD ./target/demojenkins.jar demojenkins.jar
 	ENTRYPOINT ["java","-jar","/demojenkins.jar", "&"]
 
-使用mvn命令进行打包
+	使用mvn命令进行打包
 	mvn clean package
 
 
-第二步，制作镜像
+##第二步，制作镜像
+	
 	将jar传到服务器，进行制作
 	*docker生成镜像（进入项目路径）
 	docker build -t java-demo-01:latest .
@@ -224,7 +227,7 @@ K8S部署项目流程
 
 
 	
-第三步，镜像推送到阿里云仓库
+##第三步，镜像推送到阿里云仓库
 	根据阿里云文档操作，上传镜像
 	1. 登录阿里云Docker Registry
 	2.将镜像推送到Registry
@@ -236,7 +239,8 @@ K8S部署项目流程
 	sudo docker push registry.cn-hangzhou.aliyuncs.com/shenyidong/java-project-01:1.0.0
 
 
-第四步，部署镜像，暴露应用
+##第四步，部署镜像，暴露应用
+
 	*创建deployment
 	kubectl create deployment javademo1 --image=registry.cn-hangzhou.aliyuncs.com/shenyidong/java-project-01:1.0.0 --dry-run -o yaml > javademo1.yaml
 
@@ -257,7 +261,7 @@ K8S部署项目流程
 	http://192.168.2.128:30577/user
 
 
-#遇到外网无法访问docker的解决方案
+##遇到外网无法访问docker的解决方案
 1、关闭防火墙
 2、vi /etc/sysctl.conf添加以下代码net.ipv4.ip_forward=1
 
